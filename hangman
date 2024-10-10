@@ -1,0 +1,48 @@
+import csv
+
+
+letter_order = "AĂEIRTOCNLSMUPDGFVZBHȚŞÂJXÎKYW"
+
+
+
+def complete_word(start_word, target_word):
+
+
+    result = list(start_word)
+    attempts = 0  # Inițializăm numarul de încercări
+
+    for i in range(len(start_word)):
+        if result[i] == '*':  # Dacă avem un caracter '*', încercăm să-l completăm
+            for letter in letter_order:
+                if letter == target_word[i]:  # Verificăm dacă litera curentă din ordine se potrivește
+                    result[i] = letter
+                    attempts += 1  # Incrementăm numarul de încercări
+                    break
+
+    return ''.join(result), attempts
+
+
+file_path = r'C:\Users\tsise\Desktop\cuvinte_de_verificat.txt'
+
+
+# Listă care va stoca codurile jocurilor, cuvintele inițiale și cuvintele țintă
+word_pairs = []
+
+# Citirea fișierului CSV-like
+with open(file_path, 'r', encoding='utf-8') as file:
+    reader = csv.reader(file, delimiter=';')
+    for row in reader:
+        game_code = row[0].strip()
+        start_word = row[1].strip()
+        target_word = row[2].strip()
+        word_pairs.append((game_code, start_word, target_word))
+
+total_attempts = 0  # Inițializăm un numar global pentru toate încercările
+
+for game_code, start_word, target_word in word_pairs:
+    completed_word, attempts = complete_word(start_word, target_word)
+    total_attempts += attempts  # Adunăm încercările pentru fiecare joc
+    print(f"Joc {game_code}: {start_word} → {completed_word} (Țintă: {target_word}) - Încercări: {attempts}")
+
+# Afișăm numărul total de încercări la final
+print(f"\nNumărul total de încercări pentru toate jocurile: {total_attempts}")
