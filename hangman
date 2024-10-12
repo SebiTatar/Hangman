@@ -12,9 +12,9 @@ def complete_word(start_word, target_word):
     attempts = 0  # Inițializăm numarul de încercări
 
     for i in range(len(start_word)):
-        if result[i] == '*':  # Dacă avem un caracter '*', încercăm să-l completăm
+        if result[i] == '*':  # Dacă avem un caracter '*', încercăm să gasim litera care se potriveste
             for letter in letter_order:
-                if letter == target_word[i]:  # Verificăm dacă litera curentă din ordine se potrivește
+                if letter == target_word[i]:  # Verificăm dacă litera din lista corespunde cu cea din cuvant
                     result[i] = letter
                     attempts += 1  # Incrementăm numarul de încercări
                     break
@@ -25,7 +25,7 @@ def complete_word(start_word, target_word):
 file_path = r'C:\Users\tsise\Desktop\cuvinte_de_verificat.txt'
 
 
-# Listă care va stoca codurile jocurilor, cuvintele inițiale și cuvintele țintă
+# Listă care va stoca numarul cuvantului, cuvintele tinta și cuvintele gasite
 word_pairs = []
 
 # Citirea fișierului CSV-like
@@ -41,7 +41,7 @@ total_attempts = 0  # Inițializăm un numar global pentru toate încercările
 
 for game_code, start_word, target_word in word_pairs:
     completed_word, attempts = complete_word(start_word, target_word)
-    total_attempts += attempts  # Adunăm încercările pentru fiecare joc
+    total_attempts += attempts  # Adunăm încercările pentru fiecare cuvant
     print(f"Joc {game_code}: {start_word} → {completed_word} (Țintă: {target_word}) - Încercări: {attempts}")
 
 # Afișăm numărul total de încercări la final
